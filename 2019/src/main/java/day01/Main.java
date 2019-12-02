@@ -9,7 +9,7 @@ public class Main {
     public static void main(String args[]) {
         String file = "src/main/resources/data/day01/input.txt";
         MyReader fileReader = new MyReader(file);
-        List<Integer> data = fileReader.readInts();
+        List<Integer> data = fileReader.readLinesInt();
 
         int calculatedSum = data.stream()
                 .map(FuelCounter::calculate)

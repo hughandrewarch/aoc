@@ -1,8 +1,6 @@
 package util;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,14 +15,14 @@ public class MyReader {
         this.file = file;
     }
 
-    public List<String> read() {
+    public List<String> readLines() {
 
         BufferedReader bufferedReader;
         try {
             bufferedReader = new BufferedReader(new FileReader(this.file));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return new ArrayList();
+            return new ArrayList<>();
         }
 
         return bufferedReader.lines()
@@ -32,9 +30,38 @@ public class MyReader {
 
     }
 
-    public List<Integer> readInts() {
-        return read().stream()
+    public List<Integer> readLinesInt() {
+        return toIntegers(readLines());
+    }
+
+    public List<String> readDelimited(String delimiter) {
+        Scanner scanner;
+        try {
+            scanner = new Scanner(new File(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+
+        }
+        scanner.useDelimiter(delimiter);
+
+        List<String> data = new ArrayList<>();
+
+        while(scanner.hasNext()) {
+            data.add(scanner.next());
+        }
+
+        return data;
+    }
+
+    public List<Integer> readDelimitedInt(String delimiter) {
+        return toIntegers(readDelimited(delimiter));
+    }
+
+    private List<Integer> toIntegers(List<String> strings) {
+        return strings.stream()
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
     }
+
 }
